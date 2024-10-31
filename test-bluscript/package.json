@@ -1,0 +1,15 @@
+{
+ "name": "test-bluscript",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "serve": "http-server public"
+  },
+  "dependencies": {
+    "bluscript": "^0.1.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

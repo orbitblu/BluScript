@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BluScript Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>BluScript Demo</h1>
+        <div class="code-preview">
+            <h3>BluScript Code:</h3>
+            <pre id="code"></pre>
+        </div>
+        <div class="output-preview">
+            <h3>Generated Output:</h3>
+            <div id="app"></div>
+        </div>
+    </div>
+    <script type="module">
+        const code = `
+LOGIN PAGE {
+    FIELD: username
+    FIELD: email
+    FIELD: password
+    AUTH: JWT
+    ACTION: /api/login
+}`;
+
+        // Display the BluScript code
+        document.getElementById('code').textContent = code;
+
+        // Import BluScript (we'll create a browser-compatible version)
+        import { Parser, HTMLGenerator } from './bluscript.js';
+
+        // Parse and render the form
+        const parser = new Parser(code);
+        const ast = parser.parse();
+        const htmlGenerator = new HTMLGenerator();
+
+        ast.forEach(command => {
+            if (command.type === 'LOGIN') {
+                const html = htmlGenerator.generateLoginPage(command);
+                document.getElementById('app').innerHTML = html;
+            }
+        });
+    </script>
+</body>
+</html>
