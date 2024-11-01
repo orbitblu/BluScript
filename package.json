@@ -1,6 +1,6 @@
 {
   "name": "bluscript",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "A domain-specific language for web development",
   "main": "dist/index.js",
   "type": "module",

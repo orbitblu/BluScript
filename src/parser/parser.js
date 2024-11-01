@@ -36,16 +36,16 @@ export class Parser {
     let commandType = token.value;
     this.currentToken++;
 
-    // Check for multi-word commands (e.g., "LOGIN PAGE")
     if (this.currentToken < this.tokens.length && 
         this.tokens[this.currentToken].type === 'IDENTIFIER') {
       commandType = `${commandType} ${this.tokens[this.currentToken].value}`;
       this.currentToken++;
     }
 
-    // For "LOGIN PAGE", we only want to store "LOGIN" as the type
+    const primaryType = commandType.split(' ')[0];
+
     const command = {
-      type: commandType.split(' ')[0],
+      type: primaryType,
       parameters: {}
     };
     
@@ -64,7 +64,7 @@ export class Parser {
            this.tokens[this.currentToken].type !== 'RBRACE') {
       const param = this.parseParameter();
       if (param) {
-        if (param.key === 'FIELD') {
+        if (param.key === 'FIELD' || param.key === 'LINK') {
           if (!parameters[param.key]) {
             parameters[param.key] = [];
           }
@@ -88,8 +88,18 @@ export class Parser {
     }
     this.currentToken++;
 
-    const value = this.tokens[this.currentToken]?.value;
+    let value = this.tokens[this.currentToken]?.value;
     this.currentToken++;
+
+    // Special handling for LINK parameters which have an additional colon and URL
+    if (key === 'LINK' && 
+        this.currentToken < this.tokens.length && 
+        this.tokens[this.currentToken]?.type === 'COLON') {
+      this.currentToken++; // Skip the second colon
+      const url = this.tokens[this.currentToken]?.value;
+      this.currentToken++;
+      value = `${value}: ${url}`; // Combine the text and URL
+    }
 
     return { key, value };
   }

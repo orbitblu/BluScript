@@ -1,6 +1,14 @@
 # BluScript
 
-A lightweight Domain-Specific Language (DSL) for generating web components.
+Version: **1.0.1**
+
+A lightweight Domain-Specific Language (DSL) for generating static HTML components with a clean, declarative syntax.
+
+## Current Features (v1.0.1)
+- Static HTML component generation
+- Support for navigation bars and login forms
+- Syntax highlighting for BluScript code
+- Basic styling system
 
 ## Installation
 
@@ -13,85 +21,65 @@ npm install bluscript
 ```javascript
 import { Parser, HTMLGenerator } from 'bluscript';
 
-const code = `
-LOGIN PAGE {
-  FIELD: username
-  FIELD: password
-  AUTH: JWT
-  ACTION: /login
-}
-`;
+// Define your components using BluScript syntax
+const code = NAVBAR { BRAND: My App LINK: Home: / BUTTON: Login: /login: primary};
 
+// Generate HTML from BluScript code
 const parser = new Parser(code);
 const ast = parser.parse();
-const htmlGenerator = new HTMLGenerator();
-
-ast.forEach(command => {
-  if (command.type === 'LOGIN') {
-    const html = htmlGenerator.generateLoginPage(command);
-    console.log(html);
-  }
-});
-```
+const generator = new HTMLGenerator();
+const html = generator.generateNavbar(ast[0]);
 
 ## Syntax
 
-### LOGIN PAGE
+### Navigation Bar
 
-Creates a login form with specified fields and configuration.
-
-```
-LOGIN PAGE {
-  FIELD: username
-  FIELD: password
-  AUTH: JWT
-  ACTION: /login
+NAVBAR {
+  BRAND: Test to display
+  LINK: Label: /url
+  BUTTON: Label: /url: style
 }
-```
 
-Parameters:
-- `FIELD`: Input field (can be specified multiple times)
-- `AUTH`: Authentication method
-- `ACTION`: Form submission endpoint
+### Login Form
 
-Generated HTML example:
+LOGIN PAGE {
+  TITLE: Form Title
+  FIELD: fieldname: Label
+  AUTH: JWT
+  ACTION: /api/endpoint
+  BUTTON: Submit: primary
+  FOOTER: Text: /url
+
+}
+
+## Generated HTML Example
+
 ```html
-<form action="/login" method="POST">
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" required>
+<nav class="navbar">
+  <div class="nav-content">
+    <div class="brand">My App</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+    </div>
+    <div class="nav-buttons">
+      <a href="/login" class="btn btn-primary">Login</a>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-  </div>
-  <button type="submit">Login</button>
-</form>
+</nav>
 ```
 
-## API Reference
+## Limitations (v1.0.1)
+- Static HTML generation only
+- No built-in routing
+- No form handling
+- Limited component types (navbar and login form only)
 
-### Parser
-
-```javascript
-const parser = new Parser(code);
-const ast = parser.parse();
-```
-
-### HTMLGenerator
-
-```javascript
-const generator = new HTMLGenerator();
-const html = generator.generateLoginPage(command);
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## Coming in v1.0.2
+- Client-side routing
+- Form submission handling
+- Additional component types
+- Dynamic component updates
+- Event handling system
 
 ## License
 
