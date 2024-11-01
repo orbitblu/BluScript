@@ -1,0 +1,10 @@
+   LOGIN PAGE {
+     TITLE: "Login to Your Account"
+     FIELD: username: "Username"
+     FIELD: password: "Password"
+     AUTH: JWT
+     ACTION: /api/auth/login
+     VALIDATION: required, minLength: 6
+     BUTTON: "Submit": primary
+     FOOTER: "Forgot Password?": /forgot-password
+   }

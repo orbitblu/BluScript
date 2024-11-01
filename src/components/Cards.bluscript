@@ -1,0 +1,6 @@
+   CARDS {
+     TITLE: "Featured Products"
+     ITEM: "Product 1": /product-1
+     ITEM: "Product 2": /product-2
+     ITEM: "Product 3": /product-3
+   }
